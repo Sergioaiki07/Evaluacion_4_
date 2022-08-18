@@ -15,7 +15,7 @@ def eliminar_ticket(ticket):
     requests.delete(conf.URL + "ticket/"+ticket, data=json.dumps(data), headers=cab) #eliminar ticket
 
 #host conectados en la red
-def host_registrados():
+def host_registrados(): #obtiene solo la cantidad de host para determinar el numero maximo 
     ticket = adquerir_ticket()
     cabecera_inventario = {"content-type": "application/json", "X-Auth-Token": ticket}
     host = requests.get(conf.URL + "host/count?hostName=&hostMac=&hostType=&connectedInterfaceName=&hostIp=&connectedNetworkDeviceIpAddress=&subType=&filterOperation=", headers=cabecera_inventario).json()['response']#adquirir solo el numero de host
@@ -26,10 +26,10 @@ def listar_host():
     lista=[]
     ticket = adquerir_ticket()
     cabecera_inventario = {"content-type": "application/json", "X-Auth-Token": ticket}
-    host = requests.get(conf.URL + "host", headers=cabecera_inventario)#Adquirir todas las ip de los host para comparar
+    host = requests.get(conf.URL + "host", headers=cabecera_inventario)#Adquirir los host para comparar
     eliminar_ticket(ticket)
     return host
-def obtener_ips():
+def obtener_ips():#Adquirir las ip para comprar
     lista = []
     i = 0
     while i < host_registrados():
